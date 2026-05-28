@@ -98,6 +98,13 @@ flowchart TD
 - [Recommendation without heavy real-time queries](docs/engineering-notes/recommendation-without-heavy-real-time-queries.md)
 - [Cache invalidation for similar products](docs/engineering-notes/cache-invalidation-for-similar-products.md)
 
+## Infrastructure Notes
+
+- [Request lifecycle](docs/infrastructure/request-lifecycle.md)
+- [Observability and instrumentation](docs/infrastructure/observability-and-instrumentation.md)
+- [Failure mode matrix](docs/infrastructure/failure-mode-matrix.md)
+- [Infrastructure samples](samples/infrastructure)
+
 ## Security & Privacy Notes
 
 Production scoring weights, private catalog strategy, product identifiers, and business-specific merchandising logic are excluded.
