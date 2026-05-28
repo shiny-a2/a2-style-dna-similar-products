@@ -2,6 +2,10 @@
 
 Public-safe case study for a WooCommerce similar-products system based on product signatures, candidate scoring, cache snapshots, and rebuild protection.
 
+## Reviewer Shortcut
+
+This repo demonstrates a WooCommerce product recommendation system designed around cached candidate snapshots instead of expensive live catalog scans. It relates to PDP recommendation blocks where relevance must not slow down rendering. It proves signature-based matching, cache invalidation planning, rebuild locks, render budgets, and fallback behavior. Start with `docs/infrastructure`, `docs/engineering-notes`, and `samples/infrastructure`. This is a showcase repository, not a production package.
+
 ## Overview
 
 Recommendation blocks are easy to add and easy to make expensive. This project represents the architecture behind a similar-products layer that avoids repeated live catalog scoring on product detail pages.
@@ -113,8 +117,9 @@ Production scoring weights, private catalog strategy, product identifiers, and b
 
 PHP, WordPress, WooCommerce, MySQL, transients/object cache.
 
-## Related Links
+## Related Portfolio
 
 - Portfolio: https://amiraliyaghouti.com
 - Projects: https://amiraliyaghouti.com/projects.html
+- Case studies: https://amiraliyaghouti.com/case-studies.html
 - GitHub profile: https://github.com/shiny-a2
