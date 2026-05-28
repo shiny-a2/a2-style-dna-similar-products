@@ -93,6 +93,11 @@ flowchart TD
 - cache layer;
 - renderer boundary.
 
+## Engineering Notes
+
+- [Recommendation without heavy real-time queries](docs/engineering-notes/recommendation-without-heavy-real-time-queries.md)
+- [Cache invalidation for similar products](docs/engineering-notes/cache-invalidation-for-similar-products.md)
+
 ## Security & Privacy Notes
 
 Production scoring weights, private catalog strategy, product identifiers, and business-specific merchandising logic are excluded.
@@ -106,4 +111,3 @@ PHP, WordPress, WooCommerce, MySQL, transients/object cache.
 - Portfolio: https://amiraliyaghouti.com
 - Projects: https://amiraliyaghouti.com/projects.html
 - GitHub profile: https://github.com/shiny-a2
-
