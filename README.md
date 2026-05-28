@@ -1,53 +1,101 @@
 # A2 Style DNA Similar Products
 
+Public-safe case study for a WooCommerce similar-products system based on product signatures, candidate scoring, cache snapshots, and rebuild protection.
+
 ## Overview
 
-Public showcase for a WooCommerce similar-products engine based on product signatures, cached candidate scoring, and anti-stampede protection.
+Recommendation blocks are easy to add and easy to make expensive. This project represents the architecture behind a similar-products layer that avoids repeated live catalog scoring on product detail pages.
+
+## Production Context
+
+- Product pages needed relevant recommendations without adding heavy query cost to PDP rendering.
+- Catalog attributes could be used as style signals, but production scoring rules had to remain private.
+- The block had to degrade gracefully if cache rebuilds failed or candidate data was stale.
 
 ## Problem
 
-Recommendation blocks on product pages were too expensive when generated from live product queries and repeated scoring. The system needed fast render times while keeping recommendations relevant.
+Live recommendation queries were too expensive for render-time execution. The system needed to reuse stable product signatures and cached candidates while still refreshing when product fingerprints changed.
 
-## Technical Approach
+## Operational Constraints
 
-- Build a compact product DNA signature from safe catalog attributes.
-- Cache candidate IDs and scoring output.
-- Refresh only when fingerprints change.
-- Protect cache rebuilds with locks to avoid stampedes.
-- Keep the frontend block simple and predictable.
+- Do not expose private merchandising weights.
+- Do not run full candidate scoring on every page view.
+- Do not let cache rebuilds stampede under traffic.
+- Return a safe fallback when recommendation data is unavailable.
 
-## Key Features
+## Scaling Challenges
 
-- Signature-based similarity
-- Candidate caching
-- Anti-stampede protection
-- Incremental scoring refresh
-- WooCommerce shortcode/block integration boundary
+- Product pages can receive repeated anonymous traffic.
+- Similarity scoring grows with catalog size if not bounded.
+- Attribute changes require cache freshness without global rebuild pressure.
+- Empty or stale recommendation blocks can harm the UX if not handled deliberately.
 
-## Performance / Business Impact
+## Architecture Decisions
 
-- Similar-products block render: 1.9s -> 0.42s
+- Build a compact product signature from safe catalog fields.
+- Use fingerprinted cache keys so unchanged products reuse existing candidates.
+- Use short-lived locks during rebuilds.
+- Separate signature building, candidate scoring, cache access, and rendering.
+- Keep public samples generic and omit private scoring weights.
 
-## Architecture
+## Recommendation Flow
 
 ```mermaid
-flowchart LR
-    Product[Current product] --> Signature[DNA signature]
-    Signature --> Cache{Cached candidates?}
-    Cache -->|Yes| Render[Render block]
-    Cache -->|No| Lock[Acquire rebuild lock]
-    Lock --> Score[Score candidate products]
-    Score --> Store[Store candidate snapshot]
+flowchart TD
+    PDP[Product detail page] --> Signature[Build product signature]
+    Signature --> Fingerprint[Fingerprint signature]
+    Fingerprint --> Cache{Candidate snapshot exists?}
+    Cache -->|yes| Render[Render cached candidates]
+    Cache -->|no| Lock{Rebuild lock available?}
+    Lock -->|no| Fallback[Return safe fallback]
+    Lock -->|yes| Score[Score bounded candidate set]
+    Score --> Store[Store snapshot]
     Store --> Render
 ```
 
+## Tradeoffs
+
+- Cached candidates improve render time but require freshness rules.
+- Signature-based matching is explainable but less flexible than opaque ML ranking.
+- Locking avoids stampedes but may return temporary fallback content.
+- Public samples show structure, not private merchandising strategy.
+
+## Failure Prevention
+
+- Rebuild locks prevent concurrent scoring.
+- Candidate limits prevent unbounded queries.
+- Cache keys include fingerprints.
+- Rendering tolerates empty results.
+- Slow scoring work is kept out of the normal render path where possible.
+
+## Performance Strategy
+
+| Bottleneck | Strategy | Verified impact |
+|---|---|---|
+| Similar-products block render | signature cache + candidate snapshots + rebuild locks | 1.9s -> 0.42s |
+
+## Operational Learnings
+
+- Recommendation systems in WooCommerce often fail because they are treated as UI widgets instead of data pipelines.
+- The best first optimization is moving scoring away from the critical render path.
+- A simple explainable signature model can be easier to operate than a more complex black-box model.
+
+## Future Improvements
+
+- Add sanitized before/after block screenshots.
+- Add a public fixture for signature scoring tests.
+- Add admin diagnostics for cache age and candidate counts.
+
 ## Code Samples
 
-- `samples/sample-cache-layer.php`
+- signature builder;
+- scoring service;
+- cache layer;
+- renderer boundary.
 
 ## Security & Privacy Notes
 
-The sample omits production scoring weights, catalog rules, and business-specific merchandising logic.
+Production scoring weights, private catalog strategy, product identifiers, and business-specific merchandising logic are excluded.
 
 ## Tech Stack
 
@@ -56,5 +104,6 @@ PHP, WordPress, WooCommerce, MySQL, transients/object cache.
 ## Related Links
 
 - Portfolio: https://amiraliyaghouti.com
+- Projects: https://amiraliyaghouti.com/projects.html
 - GitHub profile: https://github.com/shiny-a2
 
