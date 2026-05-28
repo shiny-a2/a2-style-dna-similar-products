@@ -109,6 +109,12 @@ flowchart TD
 - [Failure mode matrix](docs/infrastructure/failure-mode-matrix.md)
 - [Infrastructure samples](samples/infrastructure)
 
+## Quality Signal
+
+- [Quality signal notes](docs/quality-signal.md)
+- [Sample PHP syntax workflow](.github/workflows/sample-php-lint.yml)
+- [Samples directory](samples)
+
 ## Security & Privacy Notes
 
 Production scoring weights, private catalog strategy, product identifiers, and business-specific merchandising logic are excluded.
