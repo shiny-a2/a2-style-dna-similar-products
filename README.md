@@ -1,5 +1,7 @@
 # A2 Style DNA Similar Products
 
+[![Sample PHP Syntax Check](https://github.com/shiny-a2/a2-style-dna-similar-products/actions/workflows/sample-php-lint.yml/badge.svg)](https://github.com/shiny-a2/a2-style-dna-similar-products/actions/workflows/sample-php-lint.yml)
+
 Public-safe case study for a WooCommerce similar-products system based on product signatures, candidate scoring, cache snapshots, and rebuild protection.
 
 ## Reviewer Shortcut
