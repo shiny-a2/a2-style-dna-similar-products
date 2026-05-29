@@ -117,6 +117,10 @@ flowchart TD
 - [Sample PHP syntax workflow](.github/workflows/sample-php-lint.yml)
 - [Samples directory](samples)
 
+## Related Technical Writing
+
+- [Similar Products Without Expensive Real-Time Catalog Scans](https://github.com/shiny-a2/shiny-a2/blob/main/docs/technical-writing/articles/similar-products-without-realtime-catalog-scans.md)
+
 ## Security & Privacy Notes
 
 Production scoring weights, private catalog strategy, product identifiers, and business-specific merchandising logic are excluded.
